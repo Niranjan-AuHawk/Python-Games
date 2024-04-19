@@ -7,16 +7,19 @@ SqlCon = pymysql.connect(host='localhost', user="root", password='$6h#9l@2', dat
 SqlCur = SqlCon.cursor()
 
 
-class Tank:
+class Tank(object):
 
-    def __init__(self):
+    def __init__(self, name):
+        self.name = name
         self.Life = 200
         self.Ammo = 20
         self.Shield = 3
         self.Alive = True
         self.Point = 3
         self.Boom = 1
-        print(f"You have {self.Life} Lives, {self.Ammo} Ammo, {self.Shield} Shields and {self.Point} Points")
+
+    def info(self):
+        print(f"{self.name} have {self.Life} Lives, {self.Ammo} Ammo, {self.Shield} Shields and {self.Point} Points")
 
     def is_alive(self):
         if self.Alive:
@@ -107,7 +110,7 @@ while Entry != "1" and Entry != "2":
     Entry = input("===>")
 
 EntryPass = 0
-Check = 0
+Check = 1
 
 SqlCur.execute("Select UserName From BattleTank_Login_Info;")
 
@@ -264,7 +267,7 @@ while GameInput != 1:
         while CLoop:
             Count = input("Players Count:")
             if 3 <= int(Count) <= 8:
-                PlayersCount = Count
+                PlayersCount = int(Count)
                 CLoop = False
             elif Count.isalnum():
                 print("Player Count need to be a digit")
@@ -306,6 +309,12 @@ while GameInput != 1:
 
         =>"""))
 if GameInput == 1:
-    pass
+    TotalPlayers = [Tank("You"), Tank("Player1"), Tank("Player2"), Tank("Player3"), Tank("Player4"), Tank("Player5"),
+                    Tank("Player6"), Tank("Player7"), Tank("Player8")]
+    Players = []
+    for x in range(PlayersCount):
+        OnPlayers = TotalPlayers[x]
+        Players.append(OnPlayers)
+    print("Let's Start the game(^.^)")
 else:
     pass

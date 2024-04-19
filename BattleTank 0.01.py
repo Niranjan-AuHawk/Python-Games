@@ -94,7 +94,17 @@ print("""
                     #2 -> Login 
                 """)
 
-Entry = str(input("===>"))
+Entry = input("===>")
+
+while Entry != "1" and Entry != "2":
+    print("Invalid Input")
+    print("""
+
+                        #1 -> Sign Up
+                        #2 -> Login 
+                    """)
+
+    Entry = input("===>")
 
 EntryPass = 0
 Check = 0
@@ -185,7 +195,7 @@ else:
                 Username = input("UserName:")
 
             elif TabVal not in RecordCheck:
-                print("The Details Not Found. Try Login!!")
+                print("The Details Not Found. Try Sign Up!!")
                 Username = input("UserName:")
                 Password = input("Password:")
                 Email = input("Email:")
@@ -218,7 +228,8 @@ if FirstTime.upper() == "YES" or FirstTime.upper() == "Y":
     Rules = ["How to play:",
              "->You will be Fighting with 4 more Players.You can also Customizes the Number of Players.",
              "->Each Player are Given a Chance to Either Attack Others or Defend Themselves.",
-             "->All the players a Bots.There is no bias in the game, Bots are using Random function to attack players.So It will be a Fair and Square Game.",
+             "->All the players a Bots.There is no bias in the game, Bots are using Random function to attack players.",
+             "So It will be a Fair and Square Game.",
              "->The Rounds will be Taken place Till There is a Single Winner.",
              "->By killing each Player You Gain 5 points and You can use to buy Ammo, Shield and Boom.",
              "->We Wish to a Good Luck For you Match"]
@@ -227,7 +238,6 @@ if FirstTime.upper() == "YES" or FirstTime.upper() == "Y":
         time.sleep(2)
 else:
     pass
-You = Tank()
 PlayersCount = 5
 
 
@@ -245,17 +255,10 @@ GameInput = int(input("""Select Your Choice:
                             2 -> Edit Players
                             3 -> Difficulty
                             4 -> Exit 
-                            """))
-while GameInput != 1:
-    GameInput = int(input("""Select Your Choice:
-
-                                1 -> Start
-                                2 -> Edit Players
-                                3 -> Difficulty
-                                4 -> Exit 
-
-
+                            
     =>"""))
+while GameInput != 1:
+
     if GameInput == 2:
         CLoop = True
         while CLoop:
@@ -272,7 +275,10 @@ while GameInput != 1:
         Mode = int(input("""
                             1 -> Easy
                             2 -> Medium 
-                            3 -> Hard """))
+                            3 -> Hard 
+        
+        =>
+        """))
         if Mode == 1:
             player_selection(3)
             print("Easy Mode Activated ")
@@ -289,6 +295,16 @@ while GameInput != 1:
 
     else:
         print("Invalid Input!!")
+
+    GameInput = int(input("""Select Your Choice:
+
+                                    1 -> Start
+                                    2 -> Edit Players
+                                    3 -> Difficulty
+                                    4 -> Exit 
+
+
+        =>"""))
 if GameInput == 1:
     pass
 else:

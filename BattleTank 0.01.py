@@ -312,9 +312,28 @@ if GameInput == 1:
     TotalPlayers = [Tank("You"), Tank("Player1"), Tank("Player2"), Tank("Player3"), Tank("Player4"), Tank("Player5"),
                     Tank("Player6"), Tank("Player7"), Tank("Player8")]
     Players = []
+    AllInfo = ""
+
     for x in range(PlayersCount):
         OnPlayers = TotalPlayers[x]
-        Players.append(OnPlayers)
+        AllInfo += f"{OnPlayers.name} ->{OnPlayers.Life} Life, "
+        Players.append(OnPlayers.name)
+
     print("Let's Start the game(^.^)")
+    StartGame = 0
+    en = input("PRESS ENTER")
+    while StartGame == "0":
+        for Player in Players:
+            if Player == "You":
+                PlayerInput = int(input("""
+                    #1 -> Shoot
+                    #2 ->"""))
+                while PlayerInput != 1:
+                    if PlayerInput == 2:
+                        pass
+                if PlayerInput == 1:
+                    print(AllInfo)
+                    pass
+
 else:
     pass

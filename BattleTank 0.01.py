@@ -258,7 +258,7 @@ GameInput = int(input("""Select Your Choice:
                             2 -> Edit Players
                             3 -> Difficulty
                             4 -> Exit 
-                            
+
     =>"""))
 while GameInput != 1:
 
@@ -279,7 +279,7 @@ while GameInput != 1:
                             1 -> Easy
                             2 -> Medium 
                             3 -> Hard 
-        
+
         =>
         """))
         if Mode == 1:
@@ -309,13 +309,24 @@ while GameInput != 1:
 
         =>"""))
 if GameInput == 1:
-    TotalPlayers = [Tank("You"), Tank("Player1"), Tank("Player2"), Tank("Player3"), Tank("Player4"), Tank("Player5"),
-                    Tank("Player6"), Tank("Player7"), Tank("Player8")]
+    TotalPlayers = {"You": Tank("You"), "Player": Tank("Player1"),"Player2": Tank("Player2"),"Player3": Tank("Player3"),
+                    "Player4": Tank("Player4"), "Player5": Tank("Player5"), "Player6": Tank("Player6"),
+                    "Player7": Tank("Player7"), "Player8": Tank("Player8")}
+    You = TotalPlayers["You"]
+    Player1 = TotalPlayers['Player1']
+    Player2 = TotalPlayers['Player2']
+    Player3 = TotalPlayers['Player3']
+    Player4 = TotalPlayers['Player4']
+    Player5 = TotalPlayers['Player5']
+    Player6 = TotalPlayers['Player6']
+    Player7 = TotalPlayers['Player7']
+    Player8 = TotalPlayers['Player8']
+
     Players = []
     AllInfo = ""
-
+    PlayersKey = TotalPlayers.keys()
     for x in range(PlayersCount):
-        OnPlayers = TotalPlayers[x]
+        OnPlayers = TotalPlayers[PlayersKey[x]]
         AllInfo += f"{OnPlayers.name} ->{OnPlayers.Life} Life, "
         Players.append(OnPlayers.name)
 

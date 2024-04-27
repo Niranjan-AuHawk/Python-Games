@@ -1,6 +1,4 @@
-import pymysql
-import random
-import time
+import pymysql, time, random
 
 SqlCon = pymysql.connect(host='localhost', user="root", password='$6h#9l@2', database='Personal_server')
 
@@ -27,13 +25,11 @@ class Tank(object):
         else:
             print("Your Death")
 
-    def loss_life(self):
+    def loss_life(self,):
         if self.Life == 0:
-            print("GAME OVER(x_x)....")
             self.Alive = False
         else:
             self.Life -= 15
-            print("Your Shot !")
             self.Alive = True
 
     def loss_life2(self):
@@ -42,7 +38,6 @@ class Tank(object):
 
     def hit(self, enemy):
         self.Ammo -= 1
-        print("Shoot You Down ")
         enemy.loss_life()
 
     def has_ammo(self):
@@ -98,7 +93,6 @@ print("""
                 """)
 
 Entry = input("===>")
-
 while Entry != "1" and Entry != "2":
     print("Invalid Input")
     print("""
@@ -309,9 +303,9 @@ while GameInput != 1:
 
         =>"""))
 if GameInput == 1:
-    TotalPlayers = {"You": Tank("You"), "Player": Tank("Player1"),"Player2": Tank("Player2"),"Player3": Tank("Player3"),
-                    "Player4": Tank("Player4"), "Player5": Tank("Player5"), "Player6": Tank("Player6"),
-                    "Player7": Tank("Player7"), "Player8": Tank("Player8")}
+    TotalPlayers = {"You": Tank("You"), "Player1": Tank("Player1"), "Player2": Tank("Player2"),
+                    "Player3": Tank("Player3"), "Player4": Tank("Player4"), "Player5": Tank("Player5"),
+                    "Player6": Tank("Player6"), "Player7": Tank("Player7"), "Player8": Tank("Player8")}
     You = TotalPlayers["You"]
     Player1 = TotalPlayers['Player1']
     Player2 = TotalPlayers['Player2']
@@ -321,29 +315,47 @@ if GameInput == 1:
     Player6 = TotalPlayers['Player6']
     Player7 = TotalPlayers['Player7']
     Player8 = TotalPlayers['Player8']
-
-    Players = []
+    PlayersIn = {1: You, 2: Player1, 3: Player2, 4: Player3, 5: Player4, 6: Player5, 7: Player6, 8: Player7, 9: Player8}
+    TotalPlayersKeys = list(TotalPlayers.keys())
+    PlayersInValues = list(PlayersIn.values())
+    PlayersName = []
+    Players = {}
     AllInfo = ""
-    PlayersKey = TotalPlayers.keys()
     for x in range(PlayersCount):
-        OnPlayers = TotalPlayers[PlayersKey[x]]
-        AllInfo += f"{OnPlayers.name} ->{OnPlayers.Life} Life, "
-        Players.append(OnPlayers.name)
-
+        PlayersName.append(TotalPlayersKeys[x])
+        Players.setdefault(x+1, PlayersInValues[x])
+    PlayersKeys = list(Players.keys())
+    print(PlayersName)
+    print(PlayersKeys)
     print("Let's Start the game(^.^)")
     StartGame = 0
     en = input("PRESS ENTER")
-    while StartGame == "0":
-        for Player in Players:
-            if Player == "You":
+    while StartGame == 0:
+        for Player in PlayersKeys:
+            if Player == 1:
                 PlayerInput = int(input("""
                     #1 -> Shoot
-                    #2 ->"""))
+                    #2 ->
+                    
+                    ==>"""))
                 while PlayerInput != 1:
                     if PlayerInput == 2:
                         pass
                 if PlayerInput == 1:
-                    print(AllInfo)
+                    for i in range(1, len(Players)):
+
+                        print(f"#{i} -> {PlayersName[i]}, Health={Players[i].Life}")
+                        time.sleep(1)
+                    PlayerSelected = int(input("==>"))
+                    while PlayerSelected not in PlayersKeys:
+                        print("Invalid Input")
+                        for i in range(1, len(Players)):
+                            print(f"#{i} -> {PlayersName[i]}, Health ={Players[i].Life} ")
+                            time.sleep(1)
+                        PlayerSelected = int(input("==>"))
+                    print(f"You:Haha... Shoot You Down {PlayersName[PlayerSelected]} ")
+                    Players[Player].hit(Players[PlayerSelected])
+                    print(Players[PlayerSelected].Life)
                     pass
 
 else:

@@ -78,9 +78,12 @@ class Tank(object):
         print("Purchase Successful")
 
     def launch_boom(self, enemy):
-        self.Boom -= 1
-        enemy.loss_life2()
-        print("Got Something Better For You..(^O^)..")
+        if self.Boom != 0:
+            self.Boom -= 1
+            enemy.loss_life2()
+            print("Got Something Better For You..(^O^)..")
+        else:
+            print("No Boom Left.!!")
 
 
 print("HELLO...WELCOME TO 'TANK BATTLE 0.1' ")
@@ -330,16 +333,37 @@ if GameInput == 1:
     print("Let's Start the game(^.^)")
     StartGame = 0
     en = input("PRESS ENTER")
+    Round = 1
     while StartGame == 0:
+        print(f"Round{Round}")
+        Round+=1
+
         for Player in PlayersKeys:
             if Player == 1:
+                print("Alert!.It's Your Chance!!")
                 PlayerInput = int(input("""
                     #1 -> Shoot
-                    #2 ->
+                    #2 -> Shield Yourself
+                    #3 -> Launch Boom
+                    #4 -> Shop
                     
                     ==>"""))
                 while PlayerInput != 1:
-                    if PlayerInput == 2:
+                    if PlayerInput == 3:
+                        for i in range(1, len(Players)):
+                            print(f"#{i} -> {PlayersName[i]}, Health={Players[i].Life}")
+                            time.sleep(1)
+                        PlayerSelected = int(input("==>"))
+                        while PlayerSelected not in PlayersKeys:
+                            print("Invalid Input")
+                            for i in range(1, len(Players)):
+                                print(f"#{i} -> {PlayersName[i]}, Health ={Players[i].Life} ")
+                                time.sleep(1)
+                            PlayerSelected = int(input("==>"))
+                        print(f"You:Haha... Shoot You Down {PlayersName[PlayerSelected]} ")
+                        Players[Player].launch_boom(Players[PlayerSelected])
+                        print(Players[PlayerSelected].Life)
+                        break
                         pass
                 if PlayerInput == 1:
                     for i in range(1, len(Players)):
@@ -357,6 +381,8 @@ if GameInput == 1:
                     Players[Player].hit(Players[PlayerSelected])
                     print(Players[PlayerSelected].Life)
                     pass
+            else:
+                print("Hello")
 
 else:
     pass

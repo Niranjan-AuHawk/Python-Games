@@ -1,4 +1,5 @@
-import pymysql, time, random
+import pymysql, time
+import random
 
 SqlCon = pymysql.connect(host='localhost', user="root", password='$6h#9l@2', database='Personal_server')
 
@@ -10,7 +11,7 @@ class Tank(object):
     def __init__(self, name):
         self.name = name
         self.Life = 200
-        self.Ammo = 20
+        self.Ammo = 0
         self.Shield = 3
         self.Alive = True
         self.Point = 3
@@ -42,12 +43,23 @@ class Tank(object):
 
     def has_ammo(self):
         if self.Ammo != 0:
-            if self.Ammo < 5:
-                print(f"You have {self.Ammo} Ammo Left, So it is Better to Buy Some")
-            else:
-                print(f"You Have Much Enough For Now. {self.Ammo} Ammo")
+            return True
         else:
-            print("The Ammo Is Completely Over, Buy Some Fast!!! ")
+            print("The Ammo Is Completely Over, Buy Some at your next Chance. Be careful in your Count! ")
+            return False
+
+    def has_boom(self):
+        if self.Boom != 0:
+            return True
+        else:
+            print("The Boom Is Completely Over, Buy Some at your next Chance. Be careful in your Count! ")
+            return False
+
+    def has_shield(self):
+        if self.Shield != 0:
+            return True
+        else:
+            print("No Shield Left, Better Buy some!! ")
             return False
 
     def buy_ammo(self):
@@ -59,13 +71,9 @@ class Tank(object):
         self.Point += 5
         print("Got A Point")
 
-    def shield_of(self, myself):
+    def shield_of(self):
         self.Shield -= 1
-        if myself.loss_life():
-            self.Life += 15
-        else:
-            self.Life += 40
-        print("On Guard")
+        return True
 
     def buy_shield(self):
         self.Point -= 4
@@ -328,15 +336,13 @@ if GameInput == 1:
         PlayersName.append(TotalPlayersKeys[x])
         Players.setdefault(x+1, PlayersInValues[x])
     PlayersKeys = list(Players.keys())
-    print(PlayersName)
-    print(PlayersKeys)
     print("Let's Start the game(^.^)")
     StartGame = 0
-    en = input("PRESS ENTER")
+    en = input("Press ENTER to Start")
     Round = 1
     while StartGame == 0:
         print(f"Round{Round}")
-        Round+=1
+        Round += 1
 
         for Player in PlayersKeys:
             if Player == 1:
@@ -360,10 +366,36 @@ if GameInput == 1:
                                 print(f"#{i} -> {PlayersName[i]}, Health ={Players[i].Life} ")
                                 time.sleep(1)
                             PlayerSelected = int(input("==>"))
-                        print(f"You:Haha... Shoot You Down {PlayersName[PlayerSelected]} ")
-                        Players[Player].launch_boom(Players[PlayerSelected])
-                        print(Players[PlayerSelected].Life)
-                        break
+                        if Players[Player].has_boom():
+                            Players[Player].launch_boom(Players[PlayerSelected])
+                            print(Players[PlayerSelected].Life)
+                            break
+                    elif PlayerInput == 4:
+                        Purchase = True
+                        print("Welcome to Shop(^6^)")
+                        while Purchase:
+                            PurchaseItem = int(input(f"""You have {Players[Player].Point} Points to purchase.
+                                        
+                                        1# -> Ammo --|1$|
+                                        2# -> Shield --|4$|
+                                        3# -> Boom --|8$|
+                                        
+                                        
+                                    =>"""))
+                            PurchaseBill = {1: Players[Player].buy_ammo, 2: Players[Player].buy_shield,
+                                            3: Players[Player].buy_boom}
+                            AmmoP = 1
+                            ShieldP = 4
+                            BoomP = 8
+                            ShopItems = {1: AmmoP, 2: ShieldP, 3: BoomP}
+                            PurchaseItemCount = int(input("How Many would you like to purchase? =>"))
+                            if ShopItems[PurchaseItem]*PurchaseItemCount == Players[Player].Point:
+                                for x in range(PurchaseItemCount):
+                                    PurchaseBill[PurchaseItem]()
+                                Purchase = False
+                            else:
+                                print("You Don't have enough points to Purchase the Item required...")
+
                         pass
                 if PlayerInput == 1:
                     for i in range(1, len(Players)):
@@ -377,10 +409,11 @@ if GameInput == 1:
                             print(f"#{i} -> {PlayersName[i]}, Health ={Players[i].Life} ")
                             time.sleep(1)
                         PlayerSelected = int(input("==>"))
-                    print(f"You:Haha... Shoot You Down {PlayersName[PlayerSelected]} ")
-                    Players[Player].hit(Players[PlayerSelected])
-                    print(Players[PlayerSelected].Life)
-                    pass
+                    if Players[Player].has_ammo():
+                        print(f"You:Haha... Shoot You Down {PlayersName[PlayerSelected]} ")
+                        Players[Player].hit(Players[PlayerSelected])
+                        print(Players[PlayerSelected].Life)
+
             else:
                 print("Hello")
 

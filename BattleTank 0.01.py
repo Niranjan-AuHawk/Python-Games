@@ -11,7 +11,7 @@ class Tank(object):
     def __init__(self, name):
         self.name = name
         self.Life = 200
-        self.Ammo = 0
+        self.Ammo = 20
         self.Shield = 3
         self.Alive = True
         self.Point = 3
@@ -247,11 +247,12 @@ if FirstTime.upper() == "YES" or FirstTime.upper() == "Y":
 else:
     pass
 PlayersCount = 5
+level = 3
 
 
-def player_selection(level):
+def player_selection(difficulty_level):
     player_selected = random.randint(1, 10)
-    if player_selected > level:
+    if player_selected > difficulty_level:
         return True
     else:
         return False
@@ -288,13 +289,13 @@ while GameInput != 1:
         =>
         """))
         if Mode == 1:
-            player_selection(3)
+            level = 3
             print("Easy Mode Activated ")
         elif Mode == 2:
-            player_selection(5)
+            level = 5
             print("Medium Mode Activated ")
         elif Mode == 3:
-            player_selection(5)
+            level = 7
             print("Hard Mode Activated ")
 
     elif GameInput == 4:
@@ -335,6 +336,7 @@ if GameInput == 1:
     for x in range(PlayersCount):
         PlayersName.append(TotalPlayersKeys[x])
         Players.setdefault(x+1, PlayersInValues[x])
+    print(Players)
     PlayersKeys = list(Players.keys())
     print("Let's Start the game(^.^)")
     StartGame = 0
@@ -343,6 +345,7 @@ if GameInput == 1:
     while StartGame == 0:
         print(f"Round{Round}")
         Round += 1
+        print(PlayersKeys)
 
         for Player in PlayersKeys:
             if Player == 1:
@@ -414,8 +417,28 @@ if GameInput == 1:
                         Players[Player].hit(Players[PlayerSelected])
                         print(Players[PlayerSelected].Life)
 
-            else:
-                print("Hello")
+            elif Player > 1:
+                time.sleep(2)
+                print(Players[Player].name)
+                if player_selection(level):
+                    PlayerSelected = 1
+                    Players[Player].hit(Players[PlayerSelected])
+                    time.sleep(.5)
+                    print(Players[PlayerSelected].Life)
+                    print(f"hello:Haha... Shoot You Down {PlayersName[PlayerSelected]} ")
+                else:
+                    LenPlay = list(Players)
+                    LenPlay.remove(Player)
+                    LenPlay.remove(1)
+                    x = random.randint(1, len(LenPlay)-1)
+                    PlayerSelected = LenPlay[x]
+                    Players[Player].hit(Players[PlayerSelected])
+                    time.sleep(.5)
+                    print(Players[PlayerSelected].Life)
+                    print(f"hello:Haha... Shoot You Down {PlayersName[PlayerSelected]} ")
+
+
+
 
 else:
     pass

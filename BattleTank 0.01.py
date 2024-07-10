@@ -258,20 +258,37 @@ def player_selection(difficulty_level):
         return False
 
 
-GameInput = int(input("""Select Your Choice:
+GameInput = input("""Select Your Choice:
 
                             1 -> Start
                             2 -> Edit Players
                             3 -> Difficulty
                             4 -> Exit 
 
-    =>"""))
+    =>""")
+
+while GameInput not in ["1","2","3","4"]:
+    print("Invalid Input")
+    GameInput = input("""Select Your Choice:
+
+                                1 -> Start
+                                2 -> Edit Players
+                                3 -> Difficulty
+                                4 -> Exit 
+
+        =>""")
+
+GameInput = int(GameInput)
+
 while GameInput != 1:
 
     if GameInput == 2:
         CLoop = True
         while CLoop:
             Count = input("Players Count:")
+            while Count not in [str(x) for x in range(3,9)]:
+                print("Invalid Input(Give Input Between 3 to 8)")
+                Count = input("Players Count:")
             if 3 <= int(Count) <= 8:
                 PlayersCount = int(Count)
                 CLoop = False
@@ -281,13 +298,24 @@ while GameInput != 1:
                 print("The Player Count Need to be in a Limit of 3 To 8.Your Input Invalid")
 
     elif GameInput == 3:
-        Mode = int(input("""
+        Mode = input("""
                             1 -> Easy
                             2 -> Medium 
                             3 -> Hard 
 
         =>
-        """))
+        """)
+        while Mode not in ["1","2","3"]:
+            print("Invalid Input")
+            Mode = input("""
+                                       1 -> Easy
+                                       2 -> Medium 
+                                       3 -> Hard 
+
+                   =>
+                   """)
+        Mode = int(Mode)
+
         if Mode == 1:
             level = 3
             print("Easy Mode Activated ")
@@ -350,13 +378,23 @@ if GameInput == 1:
         for Player in PlayersKeys:
             if Player == 1:
                 print("Alert!.It's Your Chance!!")
-                PlayerInput = int(input("""
+                PlayerInput = input("""
                     #1 -> Shoot
                     #2 -> Shield Yourself
                     #3 -> Launch Boom
                     #4 -> Shop
                     
-                    ==>"""))
+                    ==>""")
+                while PlayerInput not in ["1","2","3","4"]:
+                    print("Invalid Input")
+                    PlayerInput = input("""
+                                        #1 -> Shoot
+                                        #2 -> Shield Yourself
+                                        #3 -> Launch Boom
+                                        #4 -> Shop
+
+                                        ==>""")
+                PlayerInput = int(PlayerInput)
                 while PlayerInput != 1:
                     if PlayerInput == 3:
                         for i in range(1, len(Players)):
@@ -377,14 +415,25 @@ if GameInput == 1:
                         Purchase = True
                         print("Welcome to Shop(^6^)")
                         while Purchase:
-                            PurchaseItem = int(input(f"""You have {Players[Player].Point} Points to purchase.
+                            PurchaseItem = input(f"""You have {Players[Player].Point} Points to purchase.
                                         
                                         1# -> Ammo --|1$|
                                         2# -> Shield --|4$|
                                         3# -> Boom --|8$|
                                         
                                         
-                                    =>"""))
+                                    =>""")
+                            while PurchaseItem not in ["1","2","3"]:
+                                print("Invalid Input")
+                                PurchaseItem = input(f"""You have {Players[Player].Point} Points to purchase.
+
+                                                                        1# -> Ammo --|1$|
+                                                                        2# -> Shield --|4$|
+                                                                        3# -> Boom --|8$|
+
+
+                                                                    =>""")
+                            PurchaseItem = int(PurchaseItem)
                             PurchaseBill = {1: Players[Player].buy_ammo, 2: Players[Player].buy_shield,
                                             3: Players[Player].buy_boom}
                             AmmoP = 1
@@ -401,17 +450,21 @@ if GameInput == 1:
 
                         pass
                 if PlayerInput == 1:
+                    print("Shooting Mode Selected")
                     for i in range(1, len(Players)):
 
                         print(f"#{i} -> {PlayersName[i]}, Health={Players[i].Life}")
                         time.sleep(1)
                     PlayerSelected = int(input("==>"))
+
                     while PlayerSelected not in PlayersKeys:
                         print("Invalid Input")
                         for i in range(1, len(Players)):
                             print(f"#{i} -> {PlayersName[i]}, Health ={Players[i].Life} ")
                             time.sleep(1)
-                        PlayerSelected = int(input("==>"))
+                        PlayerSelected = input("==>")
+
+                    PlayerSelected = int(PlayerSelected)
                     if Players[Player].has_ammo():
                         print(f"You:Haha... Shoot You Down {PlayersName[PlayerSelected]} ")
                         Players[Player].hit(Players[PlayerSelected])
@@ -425,6 +478,7 @@ if GameInput == 1:
                     Players[Player].hit(Players[PlayerSelected])
                     time.sleep(.5)
                     print(Players[PlayerSelected].Life)
+                    print("PlayersName[PlayerSelected]",PlayersName[PlayerSelected])
                     print(f"hello:Haha... Shoot You Down {PlayersName[PlayerSelected]} ")
                 else:
                     LenPlay = list(Players)
@@ -435,8 +489,8 @@ if GameInput == 1:
                     Players[Player].hit(Players[PlayerSelected])
                     time.sleep(.5)
                     print(Players[PlayerSelected].Life)
+                    print("PlayersName[PlayerSelected]",PlayersName[PlayerSelected])
                     print(f"hello:Haha... Shoot You Down {PlayersName[PlayerSelected]} ")
-
 
 
 

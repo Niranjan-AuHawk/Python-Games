@@ -2,7 +2,7 @@ def gate():
 
     import pymysql,time
 
-    SqlCon = pymysql.connect(host='localhost', user="root", password='$6h#9l@2', database='Personal_server')
+    SqlCon = pymysql.connect(host='localhost', user="root", password='$6h#9l@2', database='whatspy_server')
 
     SqlCur = SqlCon.cursor()
 
@@ -32,11 +32,11 @@ def gate():
     EntryPass = 0
     Check = 0
 
-    SqlCur.execute("Select UserName From BattleTank_Login_Info;")
+    SqlCur.execute("Select UserName From whatspy_login;")
 
     UserCheck = SqlCur.fetchall()
 
-    SqlCur.execute("Select * From BattleTank_Login_Info;")
+    SqlCur.execute("Select * From whatspy_login;")
 
     RecordCheck = SqlCur.fetchall()
 
@@ -44,18 +44,18 @@ def gate():
         print("Sign Up--> \n")
         Username = input("UserName: ")
         Password = input("Password: ")
-        Email = input("Email: ")
+        print("Class need to be given in Numbers")
+        Email = input("Class: ")
         TabVal = (Username, Email, Password)
         UserTup = (Username,)
 
         while Check == 0:
 
-            if 8 <= len(
-                    Password) <= 12 and "@" in Email and Username != "" and UserTup not in UserCheck and TabVal not in \
+            if 8 <= len(Password) <= 12 and Email in [str(x+1) for x in range(12)] and Username != "" and UserTup not in UserCheck and TabVal not in \
                     RecordCheck:
                 TabVal = (Username, Email, Password)
                 UserTup = (Username,)
-                SqlCur.execute(f'Insert into BattleTank_Login_Info Value' + str(TabVal) + ';')
+                SqlCur.execute(f'Insert into whatspy_Login Value' + str(TabVal) + ';')
                 SqlCon.commit()
                 print("Sign In Successful")
                 Check = 1
@@ -76,10 +76,10 @@ def gate():
                     Username = input("UserName:")
                     UserTup = (Username,)
 
-                elif "@" not in Email or "gmail.com" not in Email:
-                    print("""Invalid Email !!
-                     hint:'@'or'gmail.com'""")
-                    Email = input("Email:")
+                elif Email not in [str(x+1) for x in range(12)]:
+                    print("""Invalid Class !!
+                     hint:'Give a Valid input(1-12)'""")
+                    Email = input("Class:")
 
                 elif len(Password) < 8 or len(Password) > 12:
                     print("The Length of the Password SHOULD Be 8 to 12 Character!!")
@@ -89,17 +89,18 @@ def gate():
                     print("Please CHECK All Details")
                     Username = input("UserName:")
                     Password = input("Password:")
-                    Email = input("Email:")
+                    Email = input("Class:")
 
                 Check = 0
 
 
 
     else:
+
         print("Login--> ")
         Username = input("UserName:")
         Password = input("Password:")
-        Email = input("Email:")
+        Email = input("Class:")
         TabVal = (Username, Email, Password)
         UserTup = (Username,)
 
@@ -107,7 +108,7 @@ def gate():
             TabVal = (Username, Email, Password)
             UserTup = (Username,)
 
-            if 8 <= len(Password) <= 12 and "@" in Email and Username != "" and UserTup in UserCheck and TabVal in \
+            if 8 <= len(Password) <= 12 and Email in [str(x+1) for x in range(12)] and Username != "" and UserTup in UserCheck and TabVal in \
                     RecordCheck:
                 print("Login In Successful")
                 Check = 1
@@ -124,17 +125,17 @@ def gate():
                     print("The Details Not Found. Try Sign Up!!")
                     Username = input("UserName:")
                     Password = input("Password:")
-                    Email = input("Email:")
+                    Email = input("Class:")
 
                 elif UserTup not in UserCheck:
                     print("Username Not Found!!")
                     Username = input("UserName:")
                     UserTup = (Username,)
 
-                elif "@" not in Email or "gmail.com" not in Email:
-                    print("""Invalid Email !!
-                     hint:'@'or'gmail.com'""")
-                    Email = input("Email:")
+                elif Email not in [str(x+1) for x in range(12)]:
+                    print("""Invalid Class !!
+                     hint:'Give a Valid input(1-12)'""")
+                    Email = input("Class:")
 
                 elif len(Password) <= 8 or len(Password) >= 12:
                     print("The Length of the Password SHOULD Be 8 to 12 Character!!")
@@ -144,7 +145,7 @@ def gate():
                     print("Please CHECK All Details")
                     Username = input("UserName:")
                     Password = input("Password:")
-                    Email = input("Email:")
+                    Email = input("Class:")
 
                 Check = 0
     print(f"Hello {Username}.Nice to Meet You(^.^)")
